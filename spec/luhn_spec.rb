@@ -21,7 +21,7 @@ RSpec.describe Tools::Luhn do
     expect(luhn.invalid?).to be true
   end
 
-  it 'becomes invalid if digits reserved' do
+  it 'becomes invalid if digits reversed' do
     luhn = Tools::Luhn.new('05')
     expect(luhn.valid?).to be false
   end
