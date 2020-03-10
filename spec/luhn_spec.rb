@@ -22,7 +22,7 @@ RSpec.describe Tools::Luhn do
   end
 
   it 'becomes invalid if digits reversed' do
-    luhn = Tools::Luhn.new('05')
+    luhn = Tools::Luhn.new('59')
     expect(luhn.valid?).to be false
   end
 end
