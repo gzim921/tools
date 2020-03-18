@@ -15,8 +15,6 @@ module Tools
       true
     end
 
-  private
-
     def luhn_valid?
       stripped = @str.delete(' ')
       reversed_strip = stripped.reverse
@@ -32,6 +30,31 @@ module Tools
       sum = sum_all.sum
       return true if sum % 10 == 0
       false
+    end
+  end
+
+  class Raindrop
+    attr_reader :num
+
+    def initialize(num)
+      @num = num
+    end
+
+    def se_if_factors
+      string = ''
+
+      arr = (1..@num).select { |n| @num%n == 0}
+
+      string += 'Pling' if arr.include?(3)
+      string += 'Plang' if arr.include?(5)
+      string += 'Plong' if arr.include?(7)
+
+      string = string == '' ? @num.to_s : string
+      return string
+    end
+
+    def output
+      se_if_factors
     end
   end
 end
