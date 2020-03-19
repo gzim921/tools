@@ -8,9 +8,9 @@ module Tools
 
     def valid?
       return false if @str.length <= 1
-      return false if @str.chars.any? { |char| ('a'..'z').include? char.downcase }
+      return false if @str.chars.any? { |chars| ('a'..'z').include? chars.downcase}
       return false if @str.length == 2 && @str[0] == ' ' && @str[1] == '0'
-      return false if !@str.scan(/[!$&#-]/).empty?  ||  @str.include?(':')
+      return false if !@str.scan(/[!$&#-]/).empty? || @str.include?(':')
       return false if luhn_valid? == false
       true
     end
@@ -19,42 +19,19 @@ module Tools
       stripped = @str.delete(' ')
       reversed_strip = stripped.reverse
       reversed_array = reversed_strip.chars
-      every_first_range = (0..reversed_array.length-1).step(2)
-      every_second_range = (1..reversed_array.length-1).step(2)
-      every_first_array = every_first_range.map { |i| reversed_array[i]}
-      every_second_array = every_second_range.map { |i| reversed_array[i]}
-      str_to_int1 = every_first_array.map { |i| i.to_i}
-      str_to_int2 = every_second_array.map { |i| i.to_i}
-      multiplied_number = str_to_int2.map { |i| ((i * 2)-9 if i >= 5) || i*2 }
-      sum_all = multiplied_number + str_to_int1
-      sum = sum_all.sum
-      return true if sum % 10 == 0
+      every_first_r = (0..reversed_array.length-1).step(2)
+      every_second_r = (1..reversed_array.length-1).step(2)
+      every_first_ar = every_first_r.map { |i| reversed_array[i] }
+      ever_second_ar = every_second_r.map { |i| reversed_array[i] }
+      string_to_integer1 = every_first_ar.map { |i| i.to_i }
+      string_to_integer2 = every_second_r.map { |i| i.to_i }
+      multiply = string_to_integer2.map { |i| ((i * 2)-9 if i <= 5) || i * 2 }
+      sum_all_int = multiply + string_to_integer1
+      sum_all = sum_all_int.sum
+      return true if sum_all % 10 == 0
       false
     end
-  end
 
-  class Raindrop
-    attr_reader :num
-
-    def initialize(num)
-      @num = num
-    end
-
-    def se_if_factors
-      string = ''
-
-      arr = (1..@num).select { |n| @num%n == 0}
-
-      string += 'Pling' if arr.include?(3)
-      string += 'Plang' if arr.include?(5)
-      string += 'Plong' if arr.include?(7)
-
-      string = string == '' ? @num.to_s : string
-      return string
-    end
-
-    def output
-      se_if_factors
-    end
+    class Raindrop
   end
 end

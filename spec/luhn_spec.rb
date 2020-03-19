@@ -1,81 +1,77 @@
 RSpec.describe Tools::Luhn do
-  it 'doesn\'t allow single digit strings' do
-    luhn = Tools::Luhn.new('3')
+  it 'now allowed single digit strings' do
+    luhn = Tools::Luhn.new('1')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow empty strings' do
-    luhn = Tools::Luhn.new('')
-    expect(luhn.valid?).to be false
-  end
 
-  it 'doesn\'t allow single zero input' do
+  it 'not allowed single zero' do
     luhn = Tools::Luhn.new('0')
     expect(luhn.valid?).to be false
   end
 
-  it 'remains valid if digits reversed' do
+  it 'becomes valid if reversed 059' do
     luhn = Tools::Luhn.new('059')
     expect(luhn.valid?).to be true
   end
 
-  it 'becomes invalid if digits reversed' do
+  it 'becomes invalid if reversed 59' do
     luhn = Tools::Luhn.new('59')
-    expect(luhn.valid?).to be true
+    expect(luhn.valid?).to be false
   end
 
-  it 'allows a valid canadian sin' do
+  it 'becomes valid canadian sin' do
     luhn = Tools::Luhn.new('055 444 285')
     expect(luhn.valid?).to be true
   end
 
-  it 'doesn\'t allow invalid canadian sin' do
+  it 'becomes invalid canadian sin' do
     luhn = Tools::Luhn.new('055 444 286')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow invalid credit card' do
+  it 'is invalid CC' do
     luhn = Tools::Luhn.new('8273 1232 7352 0569')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow valid strings with a non digit included' do
+  it 'not allowed valid strings with a non digit included' do
     luhn = Tools::Luhn.new('055a 444 285')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow valid strings with a non digit added at the end' do
+  it 'not allowed valid strings with a non digit added to the end ' do
     luhn = Tools::Luhn.new('059a')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow valid strings with punctuation included' do
+  it 'not allowed valid strings with punctuation included become invalid' do
     luhn = Tools::Luhn.new('055-444-285')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow valid strings with symbols included' do
-    luhn = Tools::Luhn.new('05£ 44$ 285')
+  it 'not allowed valid strings with symbols' do
+    luhn = Tools::Luhn.new('055£ 444$ 285')
     expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow single zero with space' do
+  it 'not allowed single zero with space' do
     luhn = Tools::Luhn.new(' 0')
     expect(luhn.valid?).to be false
   end
 
-  it 'allows more digits than a single zero'do
-    luhn = Tools::Luhn.new('000 0')
+  it 'allowed more than a single zero' do
+    luhn = Tools::Luhn.new('0000 0')
     expect(luhn.valid?).to be true
   end
 
-  it 'says input digit 9 is correctly converted to output digit 9' do
-    luhn = Tools::Luhn.new('091 253 765')
-    expect(luhn.valid?).to be true
+  it 'converting input digit 9 if is correctly to output digit 9' do
+    luhn = Tools::Luhn.new('091')
+    expect(luhn.valid?).to be false
   end
 
-  it 'doesn\'t allow strings with non digits' do
-    luhn = Tools::Luhn.new(':986 534')
+  it 'not allowed strings with non digits' do
+    luhn = Tools::Luhn.new(':9')
     expect(luhn.valid?).to be false
   end
 end
