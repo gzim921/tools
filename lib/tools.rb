@@ -1,6 +1,72 @@
 require 'tools/version'
 
 module Tools
+  class Resistor
+    COLORS = {
+      'black' => 0,
+      'brown' => 1,
+      'red' => 2,
+      'orange' => 3,
+      'yellow' => 4,
+      'green' => 5,
+      'blue' => 6,
+      'violet' => 7,
+      'grey' => 8,
+      'white' => 9
+    }
+
+    def initialize(col1, col2, col3)
+      @colors = [col1, col2, col3]
+    end
+
+    def value
+      @colors[0..1].map { |elem| COLORS[elem] }.join.to_i
+    end
+  end
+
+  class Allergies
+    LIMIT = 512
+    ALLERGENS = {
+      1 => 'eggs',
+      2 => 'peanuts',
+      4 => 'shellfish',
+      8 => 'strawberries',
+      16 => 'tomatoes',
+      32 => 'chocolate',
+      64 => 'pollen',
+      128 => 'cats',
+      256 => 'HMM'
+    }
+
+    def initialize(score)
+      @score = score
+    end
+
+    def allergic_to?(allergen)
+      score_allergens.include?(allergen)
+    end
+
+    def score_allergens
+      allergen_keys.map { |key| ALLERGENS[key] }
+    end
+
+    private
+
+    def score
+      @score -= LIMIT while @score >= LIMIT
+      @score
+    end
+
+    def keys
+      ALLERGENS.keys.select { |item| item <= score }.sort.reverse!
+    end
+
+    def allergen_keys
+      tmp = score
+      keys.select { |elem| tmp >= elem && tmp -= elem }
+    end
+  end
+
   class Luhn
     def initialize(str)
       @stripped = str.delete(' ')
